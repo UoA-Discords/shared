@@ -1,0 +1,9 @@
+{
+    "name": "uoa-discords-shared",
+    "repository": "https://github.com/UoA-Discords/shared.git",
+    "author": "NachoToast <32235595+NachoToast@users.noreply.github.com>",
+    "license": "MIT",
+    "dependencies": {
+        "discord-api-types": "^0.37.0"
+    }
+}
