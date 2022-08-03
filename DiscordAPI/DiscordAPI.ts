@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosError, AxiosInstance } from 'axios';
 import { APIInvite, APIPartialGuild, APIUser } from 'discord-api-types/v10';
 
 export namespace DiscordAPI {
@@ -26,14 +26,26 @@ export namespace DiscordAPI {
         },
     });
 
-    function wrapErrorResponse(error: unknown): UnsuccessfulDiscordAPIResponse {
-        if (axios.isAxiosError(error)) {
+    /** Extracts the `{ message: "...", code: X }` portion of a Discord API 400 level response. */
+    export function isolateDiscordErrorResponse(error: AxiosError): Omit<UnsuccessfulDiscordAPIResponse, `success`> | undefined {
+        try {
             if (error.response?.data !== null && typeof error.response?.data === `object`) {
                 const keys = Object.keys(error.response.data);
                 if (keys.includes(`message`) && keys.includes(`code`)) {
-                    const data = error.response.data as { message: string; code: number };
-                    return { success: false, ...data };
+                    const { message, code } = error.response.data as { message: string; code: number };
+                    return { message, code };
                 }
+            }
+        } catch (error) {
+            /* don't care */
+        }
+    }
+
+    function wrapErrorResponse(error: unknown): UnsuccessfulDiscordAPIResponse {
+        if (axios.isAxiosError(error)) {
+            const isolated = isolateDiscordErrorResponse(error);
+            if (isolated !== undefined) {
+                return { success: false, ...isolated };
             }
             return { success: false, message: error.message };
         }
