@@ -1,5 +1,7 @@
 {
     "name": "uoa-discords-shared",
+    "private": true,
+    "version": "1.0.0",
     "repository": "https://github.com/UoA-Discords/shared.git",
     "author": "NachoToast <32235595+NachoToast@users.noreply.github.com>",
     "license": "MIT",
