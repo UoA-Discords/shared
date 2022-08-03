@@ -6,6 +6,7 @@
     "author": "NachoToast <32235595+NachoToast@users.noreply.github.com>",
     "license": "MIT",
     "dependencies": {
+        "axios": "^0.27.2",
         "discord-api-types": "^0.37.0"
     }
 }
