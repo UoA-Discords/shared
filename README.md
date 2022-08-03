@@ -1,4 +1,4 @@
-# UoA-Discords/Shared
+# UoA-Discords/Shared [![CodeQL](https://github.com/UoA-Discords/shared/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/UoA-Discords/shared/actions/workflows/codeql-analysis.yml)
 
 Shared types, endpoints, and handlers for the UoA Discords project.
 
