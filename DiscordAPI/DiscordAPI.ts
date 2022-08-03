@@ -17,7 +17,7 @@ export namespace DiscordAPI {
         code?: number;
     }
 
-    export type DiscordAPIResponse<T extends unknown> = SuccessfulDiscordAPIResponse<T> | UnsuccessfulDiscordAPIResponse;
+    export type Response<T extends unknown> = SuccessfulDiscordAPIResponse<T> | UnsuccessfulDiscordAPIResponse;
 
     const _discord: AxiosInstance = axios.create({
         baseURL: `https://discord.com/api/v10`,
@@ -40,7 +40,7 @@ export namespace DiscordAPI {
         return { success: false, message: `Unknown error occurred` };
     }
 
-    export async function getInviteData(inviteCode: string): Promise<DiscordAPIResponse<APIInvite>> {
+    export async function getInviteData(inviteCode: string): Promise<Response<APIInvite>> {
         try {
             const { data } = await _discord.get<APIInvite>(`/invites/${inviteCode}`, {
                 params: { with_expiration: true, with_counts: true },
@@ -51,7 +51,7 @@ export namespace DiscordAPI {
         }
     }
 
-    export async function getUserInfo(accessToken: string): Promise<DiscordAPIResponse<APIUser>> {
+    export async function getUserInfo(accessToken: string): Promise<Response<APIUser>> {
         try {
             const { data } = await _discord.get<APIUser>(`/users/@me`, {
                 headers: {
@@ -64,7 +64,7 @@ export namespace DiscordAPI {
         }
     }
 
-    export async function getUserGuilds(accessToken: string): Promise<DiscordAPIResponse<APIPartialGuild[]>> {
+    export async function getUserGuilds(accessToken: string): Promise<Response<APIPartialGuild[]>> {
         try {
             const { data } = await _discord.get<APIPartialGuild[]>(`/users/@me/guilds`, {
                 headers: {
