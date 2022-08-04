@@ -2,12 +2,12 @@ import axios from 'axios';
 import { APIInvite, APIPartialGuild, APIUser, RouteBases } from 'discord-api-types/v10';
 
 interface BaseHandleDiscordErrorResponse {
-    error: unknown | { message: string; code: number };
+    error: unknown | object;
     isDiscordError: boolean;
 }
 
 interface HandleDiscordErrorResponseIs extends BaseHandleDiscordErrorResponse {
-    error: { message: string; code: number };
+    error: object;
     isDiscordError: true;
 }
 
@@ -23,14 +23,7 @@ export function handleDiscordError(error: unknown): HandleDiscordErrorResponse {
     if (!axios.isAxiosError(error)) return { error, isDiscordError: false };
     try {
         if (error.response?.data !== null && typeof error.response?.data === `object`) {
-            const keys = Object.keys(error.response.data);
-            if (
-                (keys.includes(`message`) && keys.includes(`code`)) ||
-                (keys.includes(`error`) && keys.includes(`error_description`))
-            ) {
-                const { message, code } = error.response.data as { message: string; code: number };
-                return { error: { message, code }, isDiscordError: true };
-            }
+            return { error: error.response.data, isDiscordError: true };
         }
     } catch (newError) {
         /* don't care */
