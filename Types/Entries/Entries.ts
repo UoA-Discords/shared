@@ -1,12 +1,15 @@
 import { DenyOrWithdrawReasons, EntryAction } from './EntryActions';
 import { EntryStates } from './States';
 import { EntryFacultyTags } from './Tags';
+import { APIInviteGuild } from 'discord-api-types/v10';
 
 interface BaseEntry {
     id: string;
 
     state: EntryStates;
     inviteCode: string;
+
+    guildData: APIInviteGuild;
 
     /**
      * Array of server member count over the last 30 days,
@@ -15,7 +18,7 @@ interface BaseEntry {
      * Will not necessarily be length 30, since only starts tracking from
      * when the server was registered to the UoA Discords website.
      */
-    membedCountHistory: number[];
+    memberCountHistory: number[];
     createdById: string;
     createdAt: string;
 
