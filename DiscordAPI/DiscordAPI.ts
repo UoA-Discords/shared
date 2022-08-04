@@ -24,7 +24,10 @@ export function handleDiscordError(error: unknown): HandleDiscordErrorResponse {
     try {
         if (error.response?.data !== null && typeof error.response?.data === `object`) {
             const keys = Object.keys(error.response.data);
-            if (keys.includes(`message`) && keys.includes(`code`)) {
+            if (
+                (keys.includes(`message`) && keys.includes(`code`)) ||
+                (keys.includes(`error`) && keys.includes(`error_description`))
+            ) {
                 const { message, code } = error.response.data as { message: string; code: number };
                 return { error: { message, code }, isDiscordError: true };
             }
