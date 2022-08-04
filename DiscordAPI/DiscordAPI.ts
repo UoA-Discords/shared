@@ -1,21 +1,38 @@
 import axios from 'axios';
 import { APIInvite, APIPartialGuild, APIUser, RouteBases } from 'discord-api-types/v10';
 
+interface BaseHandleDiscordErrorResponse {
+    error: unknown | { message: string; code: number };
+    isDiscordError: boolean;
+}
+
+interface HandleDiscordErrorResponseIs extends BaseHandleDiscordErrorResponse {
+    error: { message: string; code: number };
+    isDiscordError: true;
+}
+
+interface HandleDiscordErrorResponseNot extends BaseHandleDiscordErrorResponse {
+    error: unknown;
+    isDiscordError: false;
+}
+
+export type HandleDiscordErrorResponse = HandleDiscordErrorResponseIs | HandleDiscordErrorResponseNot;
+
 /** Extracts the `{ message: "...", code: X }` portion of a Discord API 400 level response. */
-export function handleDiscordError(error: unknown): { message: string; code: number } | unknown {
-    if (!axios.isAxiosError(error)) return error;
+export function handleDiscordError(error: unknown): HandleDiscordErrorResponse {
+    if (!axios.isAxiosError(error)) return { error, isDiscordError: false };
     try {
         if (error.response?.data !== null && typeof error.response?.data === `object`) {
             const keys = Object.keys(error.response.data);
             if (keys.includes(`message`) && keys.includes(`code`)) {
                 const { message, code } = error.response.data as { message: string; code: number };
-                return { message, code };
+                return { error: { message, code }, isDiscordError: true };
             }
         }
-        return new Error(error.message);
     } catch (newError) {
-        return new Error(error.message);
+        /* don't care */
     }
+    return { error: new Error(error.message), isDiscordError: false };
 }
 
 export async function getInviteData(inviteCode: string): Promise<APIInvite> {
