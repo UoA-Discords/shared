@@ -12,4 +12,6 @@ export interface SiteUser extends Pick<APIUser, `id` | `username` | `discriminat
         denied: number;
         withdrawn: number;
     };
+    likes: string[];
+    dislikes: string[];
 }
