@@ -54,3 +54,5 @@ export interface WithdrawnEntry extends BaseEntry {
     reason: DenyOrWithdrawReasons;
     message?: string;
 }
+
+export type AnyEntry = WithdrawnEntry | DeniedEntry | ApprovedEntry | PendingEntry;
