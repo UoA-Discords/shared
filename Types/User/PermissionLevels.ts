@@ -2,7 +2,7 @@ export enum UserPermissionLevels {
     /** User cannot do anything besides look at servers on the site. */
     None,
 
-    /** User can like and dislike existing entries. */
+    /** User can login to Discord, and like and dislike existing entries. */
     LikeDislike,
 
     /** Default level, user can create applications (limit of 1 pending application per user). */
