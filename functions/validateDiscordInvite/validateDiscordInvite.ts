@@ -1,5 +1,5 @@
 import { APIInvite } from 'discord-api-types/v10';
-import { DiscordAPIError, getInviteData, handleDiscordError } from '../../DiscordAPI';
+import { DiscordAPIError, getInviteData } from '../../DiscordAPI';
 import { InvalidInviteReasons } from './invalidInviteReasons';
 import { ValidateDiscordInviteProps } from './props';
 import { ValidateDiscordInviteResponse } from './response';
