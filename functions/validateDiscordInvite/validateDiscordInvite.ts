@@ -38,5 +38,5 @@ export async function validateDiscordInvite(props: ValidateDiscordInviteProps): 
         return { valid: false, reason: InvalidInviteReasons.NotVerified };
     }
 
-    return { valid: true, invite };
+    return { valid: true, invite: { ...invite, guild: invite.guild } };
 }

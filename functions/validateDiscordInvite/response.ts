@@ -1,4 +1,4 @@
-import { APIInvite } from 'discord-api-types/v10';
+import { APIInvite, APIInviteGuild } from 'discord-api-types/v10';
 import { InvalidInviteReasons } from './invalidInviteReasons';
 
 interface BaseResponse {
@@ -7,7 +7,7 @@ interface BaseResponse {
 
 interface ValidResponse extends BaseResponse {
     valid: true;
-    invite: APIInvite;
+    invite: APIInvite & { guild: APIInviteGuild };
 }
 
 interface InvalidResponse extends BaseResponse {
