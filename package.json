@@ -8,7 +8,8 @@
     "scripts": {
         "test": "yarn jest",
         "typecheck": "tsc --noEmit",
-        "lint": "eslint --ext .ts DiscordAPI functions Types --max-warnings=0"
+        "lint": "eslint --ext .ts DiscordAPI functions Types --max-warnings=0",
+        "check-all": "yarn test && yarn typecheck && yarn lint"
     },
     "dependencies": {
         "axios": "^0.27.2",
