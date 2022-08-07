@@ -1,21 +1,21 @@
-import { APIInvite } from 'discord-api-types/v10';
-import { DiscordAPIError, getInviteData } from '../../DiscordAPI';
-import { InvalidInviteReasons } from './invalidInviteReasons';
-import { ValidateDiscordInviteProps } from './props';
-import { ValidateDiscordInviteResponse } from './response';
+import { getInviteData } from '../../DiscordAPI';
+import { ValidateDiscordInviteProps, ValidateDiscordInviteResponse, InvalidInviteReasons } from './types';
 
 /** Validates a Discord invite code */
+
+/**
+ * Validates a Discord invite code.
+ * @param {ValidateDiscordInviteProps} props Parameters for validation.
+ *
+ * @returns An object containing information about whether the invite is valid, and any relevant information.
+ */
 export async function validateDiscordInvite(props: ValidateDiscordInviteProps): Promise<ValidateDiscordInviteResponse> {
     const { inviteCode, minMemberCount, minVerificationLevel } = props;
 
-    let invite: APIInvite;
-    try {
-        invite = await getInviteData(inviteCode);
-    } catch (error) {
-        if (error instanceof DiscordAPIError && (error.data as { code?: number })?.code === 10006) {
-            return { valid: false, reason: InvalidInviteReasons.NotFound };
-        }
-        return { valid: false, reason: InvalidInviteReasons.Unknown };
+    const invite = await getInviteData(inviteCode);
+
+    if (invite === null) {
+        return { valid: false, reason: InvalidInviteReasons.NotFound };
     }
 
     if (invite.expires_at !== null) {

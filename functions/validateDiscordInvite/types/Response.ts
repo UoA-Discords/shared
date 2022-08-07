@@ -1,5 +1,5 @@
 import { APIInvite, APIInviteGuild } from 'discord-api-types/v10';
-import { InvalidInviteReasons } from './invalidInviteReasons';
+import { InvalidInviteReasons } from './InvalidInviteReasons';
 
 interface BaseResponse {
     valid: boolean;
