@@ -14,9 +14,13 @@ export interface SiteUser extends Pick<APIUser, `id` | `username` | `discriminat
      * applied should be decremented and approved should be incremented.
      */
     applicationStats: {
+        /** Number of applications this user currently has that are pending. */
         applied: number;
+        /** Number of applications this user curently has that are approved. */
         approved: number;
+        /** Number of applications this user curently has that are denied. */
         denied: number;
+        /** Number of applications this user curently has that are withdrawn. */
         withdrawn: number;
     };
     likes: string[];
