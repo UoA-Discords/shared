@@ -6,6 +6,13 @@ export interface SiteUser extends Pick<APIUser, `id` | `username` | `discriminat
     firstLogin: string;
     lastLogin: string;
     permissionLevel: UserPermissionLevels;
+
+    /**
+     * Statistics should always be current.
+     *
+     * I.e. If one of this user's applications moves from applied to approved,
+     * applied should be decremented and approved should be incremented.
+     */
     applicationStats: {
         applied: number;
         approved: number;
