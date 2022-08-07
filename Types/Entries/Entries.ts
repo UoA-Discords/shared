@@ -25,7 +25,7 @@ interface BaseEntry {
     likes: number;
     dislikes: number;
     log: EntryAction[];
-    tags: EntryFacultyTags;
+    tags: EntryFacultyTags[];
 }
 
 export interface PendingEntry extends BaseEntry {
