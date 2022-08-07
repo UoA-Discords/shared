@@ -1,4 +1,3 @@
-import { DenyOrWithdrawReasons, EntryAction } from './EntryActions';
 import { EntryStates } from './States';
 import { EntryFacultyTags } from './Tags';
 import { APIInviteGuild } from 'discord-api-types/v10';
@@ -24,13 +23,11 @@ interface BaseEntry {
 
     likes: number;
     dislikes: number;
-    log: EntryAction[];
-    tags: EntryFacultyTags[];
+    facultyTags: EntryFacultyTags[];
 }
 
 export interface PendingEntry extends BaseEntry {
-    state: EntryStates.PendingApproval;
-    log: [];
+    state: EntryStates.Pending;
 }
 
 export interface ApprovedEntry extends BaseEntry {
@@ -43,16 +40,14 @@ export interface DeniedEntry extends BaseEntry {
     state: EntryStates.Denied;
     deniedById: string;
     deniedAt: string;
-    reason: DenyOrWithdrawReasons;
-    message?: string;
+    reason?: string;
 }
 
 export interface WithdrawnEntry extends BaseEntry {
     state: EntryStates.Withdrawn;
     withdrawnById: string;
     withdrawnAt: number;
-    reason: DenyOrWithdrawReasons;
-    message?: string;
+    reason: string;
 }
 
 export type AnyEntry = WithdrawnEntry | DeniedEntry | ApprovedEntry | PendingEntry;
