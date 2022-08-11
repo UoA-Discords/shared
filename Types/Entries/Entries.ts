@@ -50,4 +50,4 @@ export interface WithdrawnEntry extends BaseEntry {
     reason: string;
 }
 
-export type AnyEntry = WithdrawnEntry | DeniedEntry | ApprovedEntry | PendingEntry;
+export type Entry = WithdrawnEntry | DeniedEntry | ApprovedEntry | PendingEntry;
