@@ -11,8 +11,12 @@ export interface BaseEntry {
 
     inviteCode: string;
 
-    /** Won't necessarily have a corresponding full user profile on the server. */
-    inviteCreatedBy: BasicUserInfo;
+    /**
+     * Won't necessarily have a corresponding full user profile on the server.
+     *
+     * Some invites also don't have a creator.
+     */
+    inviteCreatedBy?: BasicUserInfo;
 
     guildData: APIInviteGuild;
 
