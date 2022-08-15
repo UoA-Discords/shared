@@ -40,7 +40,7 @@ export interface DeniedEntry extends BaseEntry {
     state: EntryStates.Denied;
     deniedById: string;
     deniedAt: string;
-    reason?: string;
+    reason: string;
 }
 
 export interface WithdrawnEntry extends BaseEntry {
