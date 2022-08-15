@@ -2,7 +2,7 @@ import { EntryStates } from './States';
 import { EntryFacultyTags } from './Tags';
 import { APIInviteGuild } from 'discord-api-types/v10';
 
-interface BaseEntry {
+export interface BaseEntry {
     id: string;
 
     state: EntryStates;
