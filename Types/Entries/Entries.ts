@@ -2,12 +2,17 @@ import { EntryStates } from './States';
 import { EntryFacultyTags } from './Tags';
 import { APIInviteGuild } from 'discord-api-types/v10';
 import { FeaturedData } from './FeaturedData';
+import { BasicUserInfo } from '../User';
 
 export interface BaseEntry {
     id: string;
 
     state: EntryStates;
+
     inviteCode: string;
+
+    /** Won't necessarily have a corresponding full user profile on the server. */
+    inviteCreatedBy: BasicUserInfo;
 
     guildData: APIInviteGuild;
 
@@ -19,7 +24,7 @@ export interface BaseEntry {
      * when the server was registered to the UoA Discords website.
      */
     memberCountHistory: number[];
-    createdById: string;
+    createdBy: BasicUserInfo;
     createdAt: string;
 
     likes: number;
@@ -35,20 +40,20 @@ export interface PendingEntry extends BaseEntry {
 
 export interface ApprovedEntry extends BaseEntry {
     state: EntryStates.Approved;
-    approvedById: string;
+    approvedBy: BasicUserInfo;
     approvedAt: string;
 }
 
 export interface DeniedEntry extends BaseEntry {
     state: EntryStates.Denied;
-    deniedById: string;
+    deniedBy: BasicUserInfo;
     deniedAt: string;
     reason: string;
 }
 
 export interface WithdrawnEntry extends BaseEntry {
     state: EntryStates.Withdrawn;
-    withdrawnById: string;
+    withdrawnBy: BasicUserInfo;
     withdrawnAt: string;
     reason: string;
 }

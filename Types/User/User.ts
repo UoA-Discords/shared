@@ -1,6 +1,18 @@
 import { APIUser } from 'discord-api-types/v10';
 import { UserPermissionLevels } from './PermissionLevels';
 
+/**
+ * Basic user information, used to display a user without having
+ * to call the API to get their full profile (if it exists).
+ */
+export interface BasicUserInfo {
+    id: string;
+    username: string;
+    discriminator: string;
+    avatar: string | null;
+    permissionLevel: UserPermissionLevels;
+}
+
 export interface SiteUser extends Pick<APIUser, `id` | `username` | `discriminator` | `avatar` | `public_flags`> {
     ip: string;
     firstLogin: string;
@@ -23,6 +35,7 @@ export interface SiteUser extends Pick<APIUser, `id` | `username` | `discriminat
         /** Number of applications this user curently has that are withdrawn. */
         withdrawn: number;
     };
+
     likes: string[];
     dislikes: string[];
 }
