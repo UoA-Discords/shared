@@ -26,7 +26,7 @@ export interface BaseEntry {
     dislikes: number;
     facultyTags: EntryFacultyTags[];
 
-    featured: false | FeaturedData;
+    featured?: FeaturedData;
 }
 
 export interface PendingEntry extends BaseEntry {
