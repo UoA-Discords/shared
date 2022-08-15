@@ -1,6 +1,7 @@
 import { EntryStates } from './States';
 import { EntryFacultyTags } from './Tags';
 import { APIInviteGuild } from 'discord-api-types/v10';
+import { FeaturedData } from './FeaturedData';
 
 export interface BaseEntry {
     id: string;
@@ -24,6 +25,8 @@ export interface BaseEntry {
     likes: number;
     dislikes: number;
     facultyTags: EntryFacultyTags[];
+
+    featured: false | FeaturedData;
 }
 
 export interface PendingEntry extends BaseEntry {
