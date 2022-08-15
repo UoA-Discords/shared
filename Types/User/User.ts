@@ -1,4 +1,5 @@
 import { APIUser } from 'discord-api-types/v10';
+import { EntryStates } from '../Entries';
 import { UserPermissionLevels } from './PermissionLevels';
 
 /**
@@ -20,21 +21,22 @@ export interface SiteUser extends Pick<APIUser, `id` | `username` | `discriminat
     permissionLevel: UserPermissionLevels;
 
     /**
-     * Statistics should always be current.
+     * Number of applications this user currently has that are of a certain state.
      *
-     * I.e. If one of this user's applications moves from applied to approved,
-     * applied should be decremented and approved should be incremented.
+     * These should decrement on state change.
+     *
+     * E.g. having their entry approved will increment `myApplicationStats[EntryStates.Approved]`
+     * and decrement `myApplicationStats[EntryStates.Pending]`.
      */
-    applicationStats: {
-        /** Number of applications this user currently has that are pending. */
-        applied: number;
-        /** Number of applications this user curently has that are approved. */
-        approved: number;
-        /** Number of applications this user curently has that are denied. */
-        denied: number;
-        /** Number of applications this user curently has that are withdrawn. */
-        withdrawn: number;
-    };
+    myApplicationStats: Record<EntryStates, number>;
+
+    /** Number of entry state modifications this user has made,
+     * these should never decrement.
+     *
+     * E.g. changing an entry from withdrawn to approved will increment `myAdminStats[EntryStates.Approved]`
+     * by 1, but will not decrease `myAdminStats[EntryStates.Withdrawn]`.
+     */
+    myAdminStats: Record<Exclude<EntryStates, EntryStates.Pending>, number>;
 
     likes: string[];
     dislikes: string[];
