@@ -3,6 +3,14 @@ import { InvalidInviteReasons } from './types';
 import { validateDiscordInvite } from './validateDiscordInvite';
 
 describe(`validateDiscordInvite`, () => {
+    beforeAll(() => {
+        jest.setTimeout(10_000);
+    });
+
+    afterAll(() => {
+        jest.setTimeout(5_000);
+    });
+
     it(`returns 'not found' for invites that do not exist`, async () => {
         expect(
             await validateDiscordInvite({
