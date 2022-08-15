@@ -27,7 +27,7 @@ export interface BaseEntry {
      * Will not necessarily be length 30, since only starts tracking from
      * when the server was registered to the UoA Discords website.
      */
-    memberCountHistory: [online: number, total: number][];
+    memberCountHistory: ([online: number, total: number] | null)[];
     createdBy: BasicUserInfo;
     createdAt: string;
 
