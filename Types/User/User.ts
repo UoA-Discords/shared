@@ -39,5 +39,4 @@ export interface SiteUser extends Pick<APIUser, `id` | `username` | `discriminat
     myAdminStats: Record<Exclude<EntryStates, EntryStates.Pending>, number>;
 
     likes: string[];
-    dislikes: string[];
 }
