@@ -3,7 +3,7 @@ export enum UserPermissionLevels {
     None,
 
     /** User can login to Discord, and like and dislike existing entries. */
-    LikeDislike,
+    Like,
 
     /** Default level, user can create applications (limit of 1 pending application per user). */
     Default,
