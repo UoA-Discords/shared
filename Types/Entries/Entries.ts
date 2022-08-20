@@ -32,7 +32,6 @@ export interface BaseEntry {
     createdAt: string;
 
     likes: number;
-    dislikes: number;
     facultyTags: EntryFacultyTags[];
 
     featured?: FeaturedData;
@@ -57,7 +56,8 @@ export interface DeniedEntry extends BaseEntry {
 
 export interface WithdrawnEntry extends BaseEntry {
     state: EntryStates.Withdrawn;
-    withdrawnBy: BasicUserInfo;
+    /** May be undefined if withdrawn automatically. */
+    withdrawnBy?: BasicUserInfo;
     withdrawnAt: string;
     reason: string;
 }
