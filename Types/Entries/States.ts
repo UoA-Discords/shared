@@ -6,6 +6,9 @@ export enum EntryStates {
     /** Resting state of entries, should be visible to public. */
     Approved,
 
+    /** Approved and also currently featured. */
+    Featured,
+
     /** Should be invisible to public. */
     Denied,
 

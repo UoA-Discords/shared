@@ -1,24 +1,28 @@
 import { EntryStates } from './States';
 import { EntryFacultyTags } from './Tags';
-import { APIInviteGuild } from 'discord-api-types/v10';
-import { FeaturedData } from './FeaturedData';
 import { BasicUserInfo } from '../User';
+import { GuildData } from './GuildData';
 
-export interface BaseEntry {
+interface BaseEntry {
+    /** ID of the guild this entry refers to. */
     id: string;
 
     state: EntryStates;
 
+    /** Without the `discord.gg/` prefix. */
     inviteCode: string;
 
     /**
-     * Won't necessarily have a corresponding full user profile on the server.
+     * Who created this invite on Discord.
      *
-     * Some invites also don't have a creator.
+     * May be **null**, since some invites do not have a creator.
+     *
+     * Note that this user may not be registered on the site, as it is possible
+     * to use an invite created by someone else.
      */
-    inviteCreatedBy?: BasicUserInfo;
+    inviteCreatedBy: BasicUserInfo | null;
 
-    guildData: APIInviteGuild;
+    guildData: GuildData;
 
     /**
      * Array of server member count over the last 30 days,
@@ -27,39 +31,34 @@ export interface BaseEntry {
      * Will not necessarily be length 30, since only starts tracking from
      * when the server was registered to the UoA Discords website.
      */
-    memberCountHistory: ([online: number, total: number] | null)[];
+    memberCountHistory: [online: number, total: number][];
+
+    /** This user definitely should be registered. */
     createdBy: BasicUserInfo;
     createdAt: string;
 
     likes: number;
     facultyTags: EntryFacultyTags[];
-
-    featured?: FeaturedData;
 }
 
+/** An entry that has not yet been looked at by a moderator. */
 export interface PendingEntry extends BaseEntry {
     state: EntryStates.Pending;
 }
 
-export interface ApprovedEntry extends BaseEntry {
-    state: EntryStates.Approved;
-    approvedBy: BasicUserInfo;
-    approvedAt: string;
-}
+/** An entry that has been looked at by a moderator, and is no longer pending. */
+export interface FullEntry<T extends Exclude<EntryStates, EntryStates.Pending>> extends BaseEntry {
+    /** Latest state of this entry; approved, denied, or withdrawn. */
+    state: T;
 
-export interface DeniedEntry extends BaseEntry {
-    state: EntryStates.Denied;
-    deniedBy: BasicUserInfo;
-    deniedAt: string;
-    reason: string;
-}
+    /**
+     * User who transitioned this entry into its latest state,
+     * may be **null** if the entry was automatically withdrawn.
+     */
+    stateActionDoneBy: T extends EntryStates.Withdrawn ? BasicUserInfo | null : BasicUserInfo;
 
-export interface WithdrawnEntry extends BaseEntry {
-    state: EntryStates.Withdrawn;
-    /** May be undefined if withdrawn automatically. */
-    withdrawnBy?: BasicUserInfo;
-    withdrawnAt: string;
-    reason: string;
-}
+    /** When this entry was transitioned into its current state. */
+    stateActionDoneAt: string;
 
-export type Entry = WithdrawnEntry | DeniedEntry | ApprovedEntry | PendingEntry;
+    stateActionReason: T extends EntryStates.Withdrawn | EntryStates.Denied ? string : null;
+}
