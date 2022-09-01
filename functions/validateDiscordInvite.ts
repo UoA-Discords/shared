@@ -106,12 +106,30 @@ export async function validateDiscordInvite(
         }
     }
 
+    let description: string | null = null;
+    if (invite.guild.description !== null) {
+        description = invite.guild.description;
+    } else
+        try {
+            // undocumented in discord-api-types, but quite a few invites return guild data
+            // containing the welcome screen and a description
+
+            // also eslint wants to put these in backticks for some stupid reason
+            // eslint-disable-next-line quotes
+            const inv = invite.guild as unknown as { welcome_screen: { description?: unknown } };
+            if (typeof inv.welcome_screen?.description === `string`) {
+                description = inv.welcome_screen.description;
+            }
+        } catch (error) {
+            //
+        }
+
     return {
         valid: true,
         id: invite.guild.id,
         guildData: {
             banner: invite.guild.banner,
-            description: invite.guild.description,
+            description,
             icon: invite.guild.icon,
             name: invite.guild.name,
             splash: invite.guild.splash,
