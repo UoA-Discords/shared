@@ -137,6 +137,6 @@ export async function validateDiscordInvite(
         },
         inviteCreatedBy,
         totalMembers: invite.approximate_member_count,
-        onlineMembers: invite.approximate_member_count,
+        onlineMembers: invite.approximate_presence_count ?? 0,
     };
 }
