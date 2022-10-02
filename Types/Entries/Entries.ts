@@ -53,9 +53,9 @@ export interface FullEntry<T extends Exclude<EntryStates, EntryStates.Pending>> 
 
     /**
      * User who transitioned this entry into its latest state,
-     * may be **null** if the entry was automatically withdrawn.
+     * may be **null** if the entry was automatically withdrawn/denied.
      */
-    stateActionDoneBy: T extends EntryStates.Withdrawn ? BasicUserInfo | null : BasicUserInfo;
+    stateActionDoneBy: T extends EntryStates.Withdrawn | EntryStates.Denied ? BasicUserInfo | null : BasicUserInfo;
 
     /** When this entry was transitioned into its current state. */
     stateActionDoneAt: string;
