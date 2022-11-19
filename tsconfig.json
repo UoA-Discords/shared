@@ -12,14 +12,12 @@
         "noImplicitThis": true,
         "useUnknownInCatchVariables": true,
         "alwaysStrict": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
         "exactOptionalPropertyTypes": true,
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,
-        "noUncheckedIndexedAccess": true,
         "noImplicitOverride": true,
-        "noPropertyAccessFromIndexSignature": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true
     }
 }
