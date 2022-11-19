@@ -117,7 +117,7 @@ export async function validateDiscordInvite(
             // also eslint wants to put these in backticks for some stupid reason
             // eslint-disable-next-line quotes
             const inv = invite.guild as unknown as { welcome_screen: { description?: unknown } };
-            if (typeof inv.welcome_screen?.description === `string`) {
+            if (typeof inv.welcome_screen?.description === 'string') {
                 description = inv.welcome_screen.description;
             }
         } catch (error) {

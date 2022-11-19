@@ -14,7 +14,7 @@ export interface BasicUserInfo {
     permissionLevel: UserPermissionLevels;
 }
 
-export interface SiteUser extends Pick<APIUser, `id` | `username` | `discriminator` | `avatar` | `public_flags`> {
+export interface SiteUser extends Pick<APIUser, 'id' | 'username' | 'discriminator' | 'avatar' | 'public_flags'> {
     ip: string;
     firstLogin: string;
     lastLogin: string;
