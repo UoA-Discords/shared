@@ -43,7 +43,7 @@ Dev Dependencies:
 
 `eslint-config-prettier` provides cross-compatibility between `eslint` and `prettier`.
 
-`typescript` is for Typescript support.
+`typescript`, `types/node`, and `ts-node` are used for Typescript support.
 
 `jest` is used for unit testing.
 
