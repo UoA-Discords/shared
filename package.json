@@ -1,10 +1,16 @@
 {
     "name": "uoa-discords-shared",
-    "private": true,
     "version": "1.0.0",
-    "repository": "https://github.com/UoA-Discords/shared.git",
-    "author": "NachoToast <32235595+NachoToast@users.noreply.github.com>",
+    "private": true,
     "license": "MIT",
+    "author": {
+        "name": "NachoToast",
+        "url": "https://github.com/NachoToast"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/UoA-Discords/shared.git"
+    },
     "scripts": {
         "test": "yarn jest",
         "typecheck": "tsc --noEmit",
