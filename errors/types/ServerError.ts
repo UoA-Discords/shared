@@ -3,7 +3,6 @@ import { ErrorAction, ErrorActionData } from './ErrorAction';
 export interface ServerError<T extends ErrorAction> {
     /**
      * Title of this error, e.g:
-     *
      * - Rate Limited
      * - Session Expired
      * - Authentication Failed

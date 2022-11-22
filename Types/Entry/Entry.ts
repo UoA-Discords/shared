@@ -1,13 +1,14 @@
-import { EntryStates } from './States';
+import { EntryState } from './State';
 import { EntryFacultyTags } from './Tags';
 import { BasicUserInfo } from '../User';
 import { GuildData } from './GuildData';
+import { ActionLog } from './ActionLog';
 
 interface BaseEntry {
     /** ID of the guild this entry refers to. */
     id: string;
 
-    state: EntryStates;
+    state: EntryState;
 
     /** Without the `discord.gg/` prefix. */
     inviteCode: string;
@@ -35,30 +36,23 @@ interface BaseEntry {
 
     /** This user definitely should be registered. */
     createdBy: BasicUserInfo;
+
     createdAt: string;
 
     likes: number;
-    facultyTags: EntryFacultyTags[];
+
+    facultyTags: EntryFacultyTags;
 }
 
 /** An entry that has not yet been looked at by a moderator. */
 export interface PendingEntry extends BaseEntry {
-    state: EntryStates.Pending;
+    state: EntryState.Pending;
 }
 
 /** An entry that has been looked at by a moderator, and is no longer pending. */
-export interface FullEntry<T extends Exclude<EntryStates, EntryStates.Pending>> extends BaseEntry {
-    /** Latest state of this entry; approved, denied, or withdrawn. */
+export interface FullEntry<T extends Exclude<EntryState, EntryState.Pending>> extends BaseEntry {
+    /** Latest state of this entry; approved, denied, featured, or withdrawn. */
     state: T;
 
-    /**
-     * User who transitioned this entry into its latest state,
-     * may be **null** if the entry was automatically withdrawn/denied.
-     */
-    stateActionDoneBy: T extends EntryStates.Withdrawn | EntryStates.Denied ? BasicUserInfo | null : BasicUserInfo;
-
-    /** When this entry was transitioned into its current state. */
-    stateActionDoneAt: string;
-
-    stateActionReason: T extends EntryStates.Withdrawn | EntryStates.Denied ? string : null;
+    log: ActionLog[];
 }
