@@ -1,3 +1,4 @@
+/** Reasons why authentication may fail (HTTP 401), assuming a bearer scheme. */
 export enum UnauthenticatedReason {
     /** Missing `Authorization` header. */
     Missing,

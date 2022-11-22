@@ -1,6 +1,6 @@
 import { APIUser } from 'discord-api-types/v10';
-import { EntryStates } from '../Entries';
-import { UserPermissionLevels } from './PermissionLevels';
+import { EntryState } from '../Entry';
+import { UserPermissions } from './Permissions';
 
 /**
  * Basic user information, used to display a user without having
@@ -11,32 +11,30 @@ export interface BasicUserInfo {
     username: string;
     discriminator: string;
     avatar: string | null;
-    permissionLevel: UserPermissionLevels;
+    permissions: UserPermissions;
 }
 
 export interface SiteUser extends Pick<APIUser, 'id' | 'username' | 'discriminator' | 'avatar' | 'public_flags'> {
     ip: string;
     firstLogin: string;
     lastLogin: string;
-    permissionLevel: UserPermissionLevels;
+    permissions: UserPermissions;
 
     /**
      * Number of applications this user currently has that are of a certain state.
      *
-     * These should decrement on state change.
-     *
-     * E.g. having their entry approved will increment `myApplicationStats[EntryStates.Approved]`
+     * E.g. having their application approved will increment `myApplicationStats[EntryStates.Approved]`
      * and decrement `myApplicationStats[EntryStates.Pending]`.
      */
-    myApplicationStats: Record<EntryStates, number>;
+    myApplicationStats: Record<EntryState, number>;
 
-    /** Number of entry state modifications this user has made,
-     * these should never decrement.
+    /**
+     * Number of entry state modifications this user has made, these should never decrement.
      *
      * E.g. changing an entry from withdrawn to approved will increment `myAdminStats[EntryStates.Approved]`
      * by 1, but will not decrease `myAdminStats[EntryStates.Withdrawn]`.
      */
-    myAdminStats: Record<Exclude<EntryStates, EntryStates.Pending>, number>;
+    myAdminStats: Record<Exclude<EntryState, EntryState.Pending>, number>;
 
     likes: string[];
 }

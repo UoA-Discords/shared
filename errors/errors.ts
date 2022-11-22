@@ -1,5 +1,5 @@
 import permissionLevelToString from '../functions/permissionLevelToString';
-import { UserPermissions } from '../Types/User';
+import { UserPermissions } from '../types/User';
 import { ErrorAction, ServerError, UnauthenticatedReason } from './types';
 
 /**

@@ -1,4 +1,4 @@
-import { UserPermissions } from '../Types/User';
+import { UserPermissions } from '../types/User';
 
 /**
  * Converts a bitfield of {@link UserPermissions} into an array of strings, with each array item corresponding to the

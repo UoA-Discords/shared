@@ -1,5 +1,5 @@
 /** All possible states of Discord server entries in the database.  */
-export enum EntryStates {
+export enum EntryState {
     /** Initial state of entries, should be hidden from public. */
     Pending,
 

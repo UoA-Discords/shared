@@ -1,5 +1,5 @@
 import { GuildVerificationLevel } from 'discord-api-types/v10';
-import { InvalidInviteReasons, validateDiscordInvite } from './validateDiscordInvite';
+import { InvalidInviteReason, validateDiscordInvite } from './validateDiscordInvite';
 
 describe('validateDiscordInvite', () => {
     beforeAll(() => {
@@ -10,10 +10,10 @@ describe('validateDiscordInvite', () => {
         jest.setTimeout(5_000);
     });
 
-    it('returns \'not found\' for invites that do not exist', async () => {
+    it("returns 'not found' for invites that do not exist", async () => {
         expect(
             await validateDiscordInvite('thisDiscordInviteCodeWillNeverExist', 0, GuildVerificationLevel.None),
-        ).toEqual({ valid: false, reason: InvalidInviteReasons.NotFound });
+        ).toEqual({ valid: false, reason: InvalidInviteReason.NotFound });
     });
 
     it('returns valid for large enough guilds', async () => {
@@ -23,14 +23,14 @@ describe('validateDiscordInvite', () => {
     it('follows the minimum member count requirement', async () => {
         expect(await validateDiscordInvite('rimworld', Number.POSITIVE_INFINITY, GuildVerificationLevel.None)).toEqual({
             valid: false,
-            reason: InvalidInviteReasons.TooSmall,
+            reason: InvalidInviteReason.TooSmall,
         });
     });
 
     it('follows the minimum verification level requirement', async () => {
         expect(await validateDiscordInvite('rimworld', 0, GuildVerificationLevel.VeryHigh)).toEqual({
             valid: false,
-            reason: InvalidInviteReasons.NotVerified,
+            reason: InvalidInviteReason.NotVerified,
         });
     });
 });

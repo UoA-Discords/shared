@@ -1,10 +1,10 @@
 import { GuildVerificationLevel, APIInvite } from 'discord-api-types/payloads/v10';
 import { getInviteData } from '../DiscordAPI';
-import { GuildData } from '../Types/Entries/GuildData';
-import { BasicUserInfo, SiteUser, UserPermissionLevels } from '../Types/User';
+import { GuildData } from '../types/Entry/GuildData';
+import { BasicUserInfo, SiteUser, UserPermissions } from '../types/User';
 
 /** Reasons why an invite code is invalid. */
-export enum InvalidInviteReasons {
+export enum InvalidInviteReason {
     /** This invite code does not exist. */
     NotFound,
 
@@ -38,7 +38,7 @@ export interface ValidInviteResponse {
 
 export interface InvalidInviteResponse {
     valid: false;
-    reason: InvalidInviteReasons;
+    reason: InvalidInviteReason;
     extra?: unknown;
 }
 
@@ -47,6 +47,8 @@ export interface InvalidInviteResponse {
  * @param {String} inviteCode Invite code, without the `discord.gg/` prefix.
  * @param {number} minMemberCount Guilds with member counts below this will return invalid.
  * @param {number} minVerificationLevel Guilds with verification levels below this will return invalid.
+ * @param {(id: string) => SiteUser | null} [inviterFindingFunction] A way to check if the creator of the invite is in
+ * our user database.
  *
  * @returns An object containing information about whether the invite is valid, and any relevant information.
  */
@@ -61,31 +63,31 @@ export async function validateDiscordInvite(
     try {
         invite = await getInviteData(inviteCode);
     } catch (error) {
-        return { valid: false, reason: InvalidInviteReasons.Unknown, extra: error };
+        return { valid: false, reason: InvalidInviteReason.Unknown, extra: error };
     }
 
     if (invite === null) {
-        return { valid: false, reason: InvalidInviteReasons.NotFound };
+        return { valid: false, reason: InvalidInviteReason.NotFound };
     }
 
     if (invite.expires_at !== null) {
-        return { valid: false, reason: InvalidInviteReasons.Expires };
+        return { valid: false, reason: InvalidInviteReason.Expires };
     }
 
     if (invite.guild === undefined) {
-        return { valid: false, reason: InvalidInviteReasons.NoGuild };
+        return { valid: false, reason: InvalidInviteReason.NoGuild };
     }
 
     if (invite.approximate_member_count === undefined || invite.approximate_member_count < minMemberCount) {
-        return { valid: false, reason: InvalidInviteReasons.TooSmall };
+        return { valid: false, reason: InvalidInviteReason.TooSmall };
     }
 
     if (invite.guild.icon === null) {
-        return { valid: false, reason: InvalidInviteReasons.NoIcon };
+        return { valid: false, reason: InvalidInviteReason.NoIcon };
     }
 
     if (invite.guild.verification_level < minVerificationLevel) {
-        return { valid: false, reason: InvalidInviteReasons.NotVerified };
+        return { valid: false, reason: InvalidInviteReason.NotVerified };
     }
 
     let inviteCreatedBy: BasicUserInfo | null = null;
@@ -95,13 +97,13 @@ export async function validateDiscordInvite(
             username: invite.inviter.username,
             avatar: invite.inviter.avatar,
             discriminator: invite.inviter.discriminator,
-            permissionLevel: UserPermissionLevels.Default,
+            permissions: UserPermissions.,
         };
 
         if (inviterFindingFunction !== undefined) {
             const possibleUser = inviterFindingFunction(invite.inviter.id);
             if (possibleUser !== null) {
-                inviteCreatedBy.permissionLevel = possibleUser.permissionLevel;
+                inviteCreatedBy.permissions = possibleUser.permissions;
             }
         }
     }
@@ -109,13 +111,10 @@ export async function validateDiscordInvite(
     let description: string | null = null;
     if (invite.guild.description !== null) {
         description = invite.guild.description;
-    } else
+    } else {
         try {
-            // undocumented in discord-api-types, but quite a few invites return guild data
-            // containing the welcome screen and a description
-
-            // also eslint wants to put these in backticks for some stupid reason
-            // eslint-disable-next-line quotes
+            // undocumented in discord-api-types, but quite a few invites return guild data containing the welcome
+            // screen and a description
             const inv = invite.guild as unknown as { welcome_screen: { description?: unknown } };
             if (typeof inv.welcome_screen?.description === 'string') {
                 description = inv.welcome_screen.description;
@@ -123,6 +122,7 @@ export async function validateDiscordInvite(
         } catch (error) {
             //
         }
+    }
 
     return {
         valid: true,
