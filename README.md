@@ -39,12 +39,12 @@ Dev Dependencies:
 
 `eslint` and `prettier` are the main linters.
 
-`typescript-eslint/eslint-plugin` and `typescript-eslint/parser` help with linting Typescript files.
+`@typescript-eslint/eslint-plugin` and `@typescript-eslint/parser` help with linting Typescript files.
 
 `eslint-config-prettier` provides cross-compatibility between `eslint` and `prettier`.
 
-`typescript`, `types/node`, and `ts-node` are used for Typescript support.
+`typescript`, `@types/node`, and `ts-node` are used for Typescript support.
 
 `jest` is used for unit testing.
 
-`ts-jest` and `types/jest` are used to allow writing tests in Typescript.
+`ts-jest` and `@types/jest` are used to allow writing tests in Typescript.

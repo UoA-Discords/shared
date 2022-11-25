@@ -1,4 +1,4 @@
-import { BasicUserInfo } from '../User';
+import { NonSiteUser } from '../User';
 import { EntryState } from './State';
 
 /** Information about a change in state of an entry, who performed it, and for what reason. */
@@ -15,7 +15,7 @@ export interface ActionLog<
      * User who transition this entry into its latest state, may be **null** if the entry was automatically
      * withdrawn/denied.
      */
-    doneBy: T extends EntryState.Withdrawn | EntryState.Denied ? BasicUserInfo | null : BasicUserInfo;
+    doneBy: T extends EntryState.Withdrawn | EntryState.Denied ? NonSiteUser | null : NonSiteUser;
 
     /** Justification or explanation for this action. */
     reason: string;

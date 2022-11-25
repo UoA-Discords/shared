@@ -30,3 +30,5 @@ export enum UserPermissions {
     /** Can assign and remove the 'manage users' permission. */
     Owner = 1 << 8,
 }
+
+export const defaultPermissions = UserPermissions.Login | UserPermissions.Like | UserPermissions.CreateApplication;
