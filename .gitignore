@@ -3,7 +3,7 @@ node_modules/
 
 # package managers
 package-lock.json
-yarn.lock
+pnpm-lock.yaml
 .yarn-integrity
 .npm*
 
