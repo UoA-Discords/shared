@@ -1,7 +1,7 @@
 import { GuildVerificationLevel, APIInvite } from 'discord-api-types/payloads/v10';
 import { getInviteData } from '../DiscordAPI';
 import { GuildData } from '../types/Entry/GuildData';
-import { BasicUserInfo, SiteUser, UserPermissions } from '../types/User';
+import { NonSiteUser } from '../types/User';
 
 /** Reasons why an invite code is invalid. */
 export enum InvalidInviteReason {
@@ -31,7 +31,7 @@ export interface ValidInviteResponse {
     valid: true;
     id: string;
     guildData: GuildData;
-    inviteCreatedBy: BasicUserInfo | null;
+    inviteCreatedBy: NonSiteUser | null;
     totalMembers: number;
     onlineMembers: number;
 }
@@ -47,16 +47,14 @@ export interface InvalidInviteResponse {
  * @param {String} inviteCode Invite code, without the `discord.gg/` prefix.
  * @param {number} minMemberCount Guilds with member counts below this will return invalid.
  * @param {number} minVerificationLevel Guilds with verification levels below this will return invalid.
- * @param {(id: string) => SiteUser | null} [inviterFindingFunction] A way to check if the creator of the invite is in
- * our user database.
  *
- * @returns An object containing information about whether the invite is valid, and any relevant information.
+ * @returns {Promise<ValidInviteResponse | InvalidInviteResponse>} An object containing information about whether the
+ * invite is valid, and any relevant information.
  */
 export async function validateDiscordInvite(
     inviteCode: string,
     minMemberCount: number,
     minVerificationLevel: GuildVerificationLevel,
-    inviterFindingFunction?: (id: string) => SiteUser | null,
 ): Promise<ValidInviteResponse | InvalidInviteResponse> {
     let invite: APIInvite | null;
 
@@ -90,22 +88,14 @@ export async function validateDiscordInvite(
         return { valid: false, reason: InvalidInviteReason.NotVerified };
     }
 
-    let inviteCreatedBy: BasicUserInfo | null = null;
+    let inviteCreatedBy: NonSiteUser | null = null;
     if (invite.inviter !== undefined) {
         inviteCreatedBy = {
             id: invite.inviter.id,
             username: invite.inviter.username,
             avatar: invite.inviter.avatar,
             discriminator: invite.inviter.discriminator,
-            permissions: UserPermissions.,
         };
-
-        if (inviterFindingFunction !== undefined) {
-            const possibleUser = inviterFindingFunction(invite.inviter.id);
-            if (possibleUser !== null) {
-                inviteCreatedBy.permissions = possibleUser.permissions;
-            }
-        }
     }
 
     let description: string | null = null;

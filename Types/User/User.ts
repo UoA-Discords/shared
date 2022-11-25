@@ -3,15 +3,16 @@ import { EntryState } from '../Entry';
 import { UserPermissions } from './Permissions';
 
 /**
- * Basic user information, used to display a user without having
- * to call the API to get their full profile (if it exists).
+ * A Discord user who is referenced in the site but doesn't have a full account on it.
+ *
+ * This can happen if a user's profile is deleted, or if they created an invite that someone else made an application
+ * for.
  */
-export interface BasicUserInfo {
+export interface NonSiteUser {
     id: string;
     username: string;
     discriminator: string;
     avatar: string | null;
-    permissions: UserPermissions;
 }
 
 export interface SiteUser extends Pick<APIUser, 'id' | 'username' | 'discriminator' | 'avatar' | 'public_flags'> {
@@ -23,18 +24,21 @@ export interface SiteUser extends Pick<APIUser, 'id' | 'username' | 'discriminat
     /**
      * Number of applications this user currently has that are of a certain state.
      *
-     * E.g. having their application approved will increment `myApplicationStats[EntryStates.Approved]`
-     * and decrement `myApplicationStats[EntryStates.Pending]`.
+     * E.g. having their application approved will increment `applicationStats[EntryStates.Approved]`
+     * and decrement `applicationStats[EntryStates.Pending]`.
      */
-    myApplicationStats: Record<EntryState, number>;
+    applicationStats: Record<EntryState, number>;
 
     /**
-     * Number of entry state modifications this user has made, these should never decrement.
+     * Number of entry state modifications this user has made.
      *
-     * E.g. changing an entry from withdrawn to approved will increment `myAdminStats[EntryStates.Approved]`
-     * by 1, but will not decrease `myAdminStats[EntryStates.Withdrawn]`.
+     * E.g. changing an entry from withdrawn to approved will increment `adminStats[EntryStates.Approved]`
+     * by 1, and will decrease `adminStats[EntryStates.Withdrawn]` by 1 for the user who originally approved the entry.
      */
-    myAdminStats: Record<Exclude<EntryState, EntryState.Pending>, number>;
+    adminStats: Record<Exclude<EntryState, EntryState.Pending>, number>;
 
     likes: string[];
 }
+
+/** The ID of the user if they are registered to the site, otherwise their basic information. */
+export type UserReference = NonSiteUser | string;

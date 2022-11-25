@@ -4,9 +4,7 @@ import { APIInvite, RouteBases } from 'discord-api-types/v10';
 /**
  * Attempts to get a {@link APIInvite Discord invite response} from an invite code.
  * @param {String} inviteCode Invite code, without the `discord.gg...` prefix.
- *
- * @returns Returns the invite data on success, or `null` if the invite does not exist.
- *
+ * @returns {Promise<APIInvite|null>} Returns the invite data on success, or `null` if the invite does not exist.
  * @throws Throws an error if the request fails.
  */
 export async function getInviteData(inviteCode: string): Promise<APIInvite | null> {

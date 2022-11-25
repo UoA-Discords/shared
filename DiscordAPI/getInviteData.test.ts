@@ -6,7 +6,7 @@ describe('getInviteData', () => {
     });
 
     it('returns data if an invite code does exist', async () => {
-        const res = await getInviteData('rimworld');
-        expect(res?.guild?.description?.toLowerCase()).toContain('rimworld');
+        const res = await getInviteData('XmdRWSCy2U');
+        expect(res?.guild?.name.toLowerCase()).toContain('uoa discords');
     });
 });
