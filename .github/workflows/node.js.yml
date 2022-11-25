@@ -18,16 +18,20 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
       - name: Setup Node ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          cache: "pnpm"
       - name: Install Dependencies
-        run: yarn
+        run: pnpm install --frozen-lockfile
       - name: Typecheck
-        run: yarn typecheck
+        run: pnpm run typecheck
       - name: Lint
-        run: yarn lint
+        run: pnpm run lint
       - name: Test
-        run: yarn test
+        run: pnpm run test
