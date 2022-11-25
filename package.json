@@ -14,7 +14,7 @@
     "scripts": {
         "test": "yarn jest",
         "typecheck": "tsc --noEmit",
-        "lint": "eslint --ext .ts DiscordAPI functions Types --max-warnings=0",
+        "lint": "eslint **/*.ts --max-warnings=0",
         "check-all": "yarn test && yarn typecheck && yarn lint"
     },
     "dependencies": {
