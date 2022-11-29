@@ -21,7 +21,7 @@ npm install
 
 # Scripts
 
-Run using `pnpm run <script name>` / `yarn <script name>` / `npm run <script name>`.
+Run using `pnpm <script name>` / `yarn <script name>` / `npm run <script name>`.
 
 E.g. `pnpm run test`
 
