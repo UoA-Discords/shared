@@ -18,7 +18,7 @@
         "check-all": "yarn test && yarn typecheck && yarn lint"
     },
     "dependencies": {
-        "axios": "^0.27.2",
+        "axios": "^1.0.0",
         "discord-api-types": "^0.37.20"
     },
     "devDependencies": {
