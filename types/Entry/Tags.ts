@@ -12,3 +12,8 @@ export enum EntryFacultyTags {
     Science = 1 << 10,
     Statistics = 1 << 11,
 }
+
+export enum EntryMiscTags {
+    /** This server is run by UoA Discords staff. */
+    Partnered = 1 << 0,
+}

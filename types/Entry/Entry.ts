@@ -1,5 +1,5 @@
 import { EntryState } from './State';
-import { EntryFacultyTags } from './Tags';
+import { EntryFacultyTags, EntryMiscTags } from './Tags';
 import { UserReference } from '../User';
 import { GuildData } from './GuildData';
 import { ActionLog } from './ActionLog';
@@ -40,7 +40,10 @@ interface BaseEntry {
 
     likes: number;
 
-    facultyTags: EntryFacultyTags;
+    tags: {
+        faculty: EntryFacultyTags;
+        misc: EntryMiscTags;
+    };
 }
 
 /** An entry that has not yet been looked at by a moderator. */
