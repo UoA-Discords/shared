@@ -19,7 +19,7 @@ yarn
 npm install
 ```
 
-# Script
+# Scripts
 
 Run using `pnpm run <script name>` / `yarn <script name>` / `npm run <script name>`.
 
